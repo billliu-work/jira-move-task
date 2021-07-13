@@ -102,3 +102,5 @@ if [ -n "$changelogpath" ]; then
 fi
 echo "query $slack_query"
 echo $(curl -X POST -H "Content-type: application/json" --data "$slack_query" $slack_webhoock)
+
+envman add --key JIRA_CHANGED_LIST --value "$release_message"
