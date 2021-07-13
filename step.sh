@@ -98,11 +98,11 @@ do
 done
 release_message="$release_message\n\`\`\` "
 release_message="\"$release_message\""
-#slack_query=$(jq -n --argjson message "$release_message" '{text:$message}');
+slack_query=$(jq -n --argjson message "$release_message" '{text:$message}');
 if [ -n "$changelogpath" ]; then
 	echo "$change_log" > $changelogpath
 fi
-echo "query $slack_query"
-echo $(curl -X POST -H "Content-type: application/json" --data "$slack_query" $slack_webhoock)
+#echo "query $slack_query"
+#echo $(curl -X POST -H "Content-type: application/json" --data "$slack_query" $slack_webhoock)
 
 echo 'Change list:' | envman add --key JIRA_CHANGED_LIST --value "$jira_change_list"
