@@ -90,17 +90,19 @@ do
 
 done
 release_message="Next build resolves following issues  \n\`\`\`\n"
+jira_change_list=""
 for task in ${tasks_to_close}
 do
 	release_message="$release_message$jira_url/browse/$task\n"
+	jira_change_list="$jira_change_list$jira_url/browse/$task\n"
 done
 release_message="$release_message\n\`\`\` "
 release_message="\"$release_message\""
-slack_query=$(jq -n --argjson message "$release_message" '{text:$message}');
+#slack_query=$(jq -n --argjson message "$release_message" '{text:$message}');
 if [ -n "$changelogpath" ]; then
 	echo "$change_log" > $changelogpath
 fi
 echo "query $slack_query"
 echo $(curl -X POST -H "Content-type: application/json" --data "$slack_query" $slack_webhoock)
 
-envman add --key JIRA_CHANGED_LIST --value "$release_message"
+echo 'Change list:' | envman add --key JIRA_CHANGED_LIST --value "$jira_change_list"
